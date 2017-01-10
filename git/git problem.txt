@@ -1,0 +1,7 @@
+问题：
+	$ git add readme.txt
+	fatal:pathspec 'readme.txt' did not match any files
+原因：你要添加的文件找不到，如果文件不存在当然无法添加了。
+
+问题：github上传时出现error: src refspec master does not match any
+原因：目录中没有文件，空目录是不能提交上去的
