@@ -1,0 +1,16 @@
+cd：chang directory,切换目录
+pwd：print working directory，显示目前所在的目录;
+pwd -P:获取正确的目录名称而不是连接文件的路径。
+mkdir：创建新的目录；
+mkdir -p test1/test2/test3/test4：加了-p的参数，可以自行创建多层目录；
+mkdir -m 777 test2：创建test2目录，并且设置目录的权限属性为rwxrwxrwx；
+rmdir：删除空的目录；
+rmdir -p test1/test2/test3/test4：如果test1中只有test2，test2中只有test3，test3中只有test4，那么该命令可以删除掉test1目录下的所有空目录。
+
+df:列出文件系统的整体磁盘使用量；
+du:评估文件系统的磁盘使用量（常用于评估目录所占容量）。
+
+
+压缩文件：tar -zcv -f filename.tar.gz 要被压缩的文件或目录
+查看解压文件：tar -ztv -f filename.tar.gz
+解压文件：tar -zxv -f filename.tar.gz -C 要解压的目录
