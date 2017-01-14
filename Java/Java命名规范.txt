@@ -1,0 +1,12 @@
+以某个任务为例，需要任务、事件通知、适配器、任务内容、任务时间、任务执行者等等；
+那么我们在命名时可以考虑为这些事物分类：实体域、会话域、服务域。
+实体域：
+	Task表示任务本身；
+	TaskListener表示事件通知，所有的UI操作均放在Listener里处理；
+	TaskAdapter同时实现Task接口和TaskListener接口；
+会话域：
+	TaskContext为上下文，保存执行过程中的状态；
+	TaskEvent为事件信息；
+服务域：
+	TaskExecutor提供执行能力，为执行入口；
+	TaskService作为SPI，可以同时适配Swing/AWT和JFace/SWT。

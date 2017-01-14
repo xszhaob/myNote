@@ -1,0 +1,4 @@
+API（Application Programming Interface ），在java中，我们使用java提供的很多类、类的方法、数据结构来编写我们的应用程序，最终完成我们需求的程序功能，这里的类、方法、数据结构即是jdk提供的api。api的意义，其实就是这些提供给你完成某项功能的类、接口或者方法。
+而SPI（Service Provider Interface）是指一些提供给你继承、扩展，完成自定义功能的类、接口或者方法。
+API直接为你提供了功能，你使用API就能完成任务。
+SPI是一种回调的思想，回调是指我们在使用api时，我们可以向api传入一个类或者方法，api在合适的时间调用类或者方法。SPI是在一些通用的标准中，为标准的实现产商提供的扩展点。标准在上层提供API，API内部使用了SPI，当API被客户使用时，会动态得从当前运行的classpath中寻找该SPI的实现，然后使用该SPI的实现来完成API的功能。
