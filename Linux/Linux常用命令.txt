@@ -1,4 +1,4 @@
-cd：chang directory,切换目录
+﻿cd：chang directory,切换目录
 pwd：print working directory，显示目前所在的目录;
 pwd -P:获取正确的目录名称而不是连接文件的路径。
 mkdir：创建新的目录；
