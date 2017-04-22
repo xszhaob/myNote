@@ -9,4 +9,44 @@ db.myCollection.find()
 
 db.myCollection.find().pretty()
 	以JSON格式化的方式输出数据。	
-	
+
+-- 查询相关
+
+-- 查询全部数据
+SQL
+	select * from inventory;
+mongo shell
+	db.inventory.find()
+
+-- 条件查询
+SQL
+	select * from inventory t where t.status = "D"
+mongo shell
+	db.inventory.find({status : "D"})
+
+-- in 查询
+SQL
+	select * from inventory t where t.status in ("A","D")
+mongo shell
+	db.inventory.find({status : {$in : ["A","D"]}})
+
+-- and 查询
+SQL
+	select * from inventory t where t.status = "A" and t.qty < 30
+mongo
+	db.inventory.find({status : "A", qty : {$lt : 30}})
+
+-- or 查询
+SQL	
+	select * from inventory t where t.status = "A" or t.qty < 30
+mongo shell
+	db.inventory.find({$or : [{stauts : "A"},{qty : {$lt : 30}}]})
+
+-- and 和 or 共用
+SQL
+	select * from inventory t where t.status = "A" and (qty < 30 or item like "p%")
+mongo shell
+	db.inventory.find({
+		status : "A", 
+		$or : [{qty : {$lt : 30}},{item : /^p/}]
+	})
