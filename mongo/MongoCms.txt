@@ -1,1 +1,12 @@
-db：代表当前的数据库。
+db
+	代表当前的数据库。
+
+db.collection
+	当前数据库的指定集合
+
+db.myCollection.find()
+	获取myCollection集合中的所有数据，默认打印前20个，键入it获取更多的20个。
+
+db.myCollection.find().pretty()
+	以JSON格式化的方式输出数据。	
+	
