@@ -1,3 +1,4 @@
 在github上提交代码后，进入github查看到提交记录，但是却不显示绿格子，原因之一是本地Git的配置邮箱和github上面的邮箱不一致。
 解决办法是，打开本地的git bash，输入git config user.email查看你的本地配置邮箱，检查是否和github上面绑定的邮箱一致，如果不一致则更改一下。
 比如我在github上面绑定的邮箱是hello@163.com，但是本地通过git bash输入git config user.email后，显示的邮箱和hello@163.com不一样或者根本不显示，此时需要修改邮箱，使用如下命令，git config --global user.email "hello@163.com"，此时git bush只是跳转一下，然后再输入git config user.email进行查看，发现本地配置的邮箱地址已经和github上面的地址保持一致。之后再提交代码，就会有绿格子了。
+此外，名字也要保持一致，更改名字的命令：git config --global user.name "hello"
