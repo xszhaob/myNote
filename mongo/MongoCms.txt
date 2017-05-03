@@ -60,9 +60,7 @@ db.inventory.find({size : {h : 14, w : 21, uom : "cm"}})
 db.inventory.find({"size.uom" : "in"})
 
 
-
-
--- 针对数据的查询
+-- 针对数组的查询
 db.inventory.insertMany([
    { item: "journal", qty: 25, tags: ["blank", "red"], dim_cm: [ 14, 21 ] },
    { item: "notebook", qty: 50, tags: ["red", "blank"], dim_cm: [ 14, 21 ] },
@@ -70,7 +68,7 @@ db.inventory.insertMany([
    { item: "planner", qty: 75, tags: ["blank", "red"], dim_cm: [ 22.85, 30 ] },
    { item: "postcard", qty: 45, tags: ["blue"], dim_cm: [ 10, 15.25 ] }
 ]);
--- 精确匹配数据，只会查出第二条
+-- 精确匹配数组，只会查出第二条
 db.inventory.find({
 	tags : ["blank", "red"]
 })
