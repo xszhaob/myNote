@@ -5,6 +5,8 @@
 此外，名字也要保持一致，更改名字的命令：git config --global user.name "hello"。
 
 
+
+
 1.Open Git Bash.
 
 2.Create a fresh, bare clone of your repository:
