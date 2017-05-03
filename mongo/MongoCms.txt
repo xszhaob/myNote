@@ -60,7 +60,7 @@ db.inventory.find({size : {h : 14, w : 21, uom : "cm"}})
 db.inventory.find({"size.uom" : "in"})
 
 
--- 针对数组的查询
+-- 针对数组的查询。
 db.inventory.insertMany([
    { item: "journal", qty: 25, tags: ["blank", "red"], dim_cm: [ 14, 21 ] },
    { item: "notebook", qty: 50, tags: ["red", "blank"], dim_cm: [ 14, 21 ] },
