@@ -6,6 +6,10 @@
 
 
 
+
+
+
+
 1.Open Git Bash.
 
 2.Create a fresh, bare clone of your repository:
