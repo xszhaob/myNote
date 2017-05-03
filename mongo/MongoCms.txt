@@ -54,7 +54,7 @@ mongo shell
 
 -- 根据嵌套文档查询
 db.inventory.find({size : {h : 14, w : 21, uom : "cm"}})
-根据嵌套文档查询必须是精确匹配嵌套文档，包括元素的顺序和个数。
+注意：根据嵌套文档查询必须是精确匹配嵌套文档，包括元素的顺序和个数。
 
 -- 根据嵌套文档内的字段查询
 db.inventory.find({"size.uom" : "in"})
