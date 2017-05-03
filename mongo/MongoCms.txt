@@ -10,6 +10,7 @@ db.myCollection.find()
 db.myCollection.find().pretty()
 	以JSON格式化的方式输出数据。	
 
+
 -- 查询相关
 
 -- 查询全部数据
@@ -50,3 +51,62 @@ mongo shell
 		status : "A", 
 		$or : [{qty : {$lt : 30}},{item : /^p/}]
 	})
+
+-- 根据嵌套文档查询
+db.inventory.find({size : {h : 14, w : 21, uom : "cm"}})
+根据嵌套文档查询必须是精确匹配嵌套文档，包括元素的顺序和个数。
+
+-- 根据嵌套文档内的字段查询
+db.inventory.find({"size.uom" : "in"})
+
+
+
+
+-- 针对数据的查询
+db.inventory.insertMany([
+   { item: "journal", qty: 25, tags: ["blank", "red"], dim_cm: [ 14, 21 ] },
+   { item: "notebook", qty: 50, tags: ["red", "blank"], dim_cm: [ 14, 21 ] },
+   { item: "paper", qty: 100, tags: ["red", "blank", "plain"], dim_cm: [ 14, 21 ] },
+   { item: "planner", qty: 75, tags: ["blank", "red"], dim_cm: [ 22.85, 30 ] },
+   { item: "postcard", qty: 45, tags: ["blue"], dim_cm: [ 10, 15.25 ] }
+]);
+-- 精确匹配数据，只会查出第二条
+db.inventory.find({
+	tags : ["blank", "red"]
+})
+
+-- 非精确查询，至少有一个元素可以和给定值匹配上。查询tags中含有red或blank元素的，不需要匹配顺序和数组内元素个数，也不需要完全匹配两个元素。
+db.inventory.find({
+	tags : {$all : ["red", "blank"]}
+})
+
+-- 配合操作器查询数组。
+-- dim_cm数组中至少包含一个小于15的元素的文档
+db.inventory.find({
+	dim_cm : {$lt : 15}
+})
+-- dim_cm数组中至少包含一个大于15或小于25的元素的文档，不需要某个元素同时满足大于15并且小于25。
+db.inventory.find({
+	dim_cm : {$gt : 15, $lt : 25}
+})
+-- dim_cm数组中至少包含一个大于15并且小于25的元素的文档，该元素必须同时满足大于15且小于25。
+db.inventory.find({
+	dim_cm : {$elemMatch : {$gt : 15, $lt : 25}}
+})
+-- 根据数组的下标锁定元素并且做筛选。下标从0开始。
+db.inventory.find({
+	"dim_cm.1" {$gt : 25}
+})
+-- 根据数组的长度筛选文档
+db.inventory.find({
+	"tags" : {$size : 3}
+})
+
+-- 删除相关命令
+db.inventory.deleteOne({stauts : "A"})
+	删除集合中匹配到status=A的文档，如果在集合中有多个status=A的文档，只删除匹配到的第一个文档。
+db.inventory.deleteMany({status : "A"})
+	删除集合中匹配到status=A的所有文档。
+db.inventory.deleteMany({})
+	删除集合中所有的文档。   
+备注：删除命令中的条件中也可以使用查询相关的筛选条件。
