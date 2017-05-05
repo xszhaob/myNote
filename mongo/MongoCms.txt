@@ -100,6 +100,20 @@ db.inventory.find({
 	"tags" : {$size : 3}
 })
 
+
+-- 查询嵌入文档数组，
+-- 数据准备
+db.inventory.insertMany( [
+   { item: "journal", instock: [ { warehouse: "A", qty: 5 }, { warehouse: "C", qty: 15 } ] },
+   { item: "notebook", instock: [ { warehouse: "C", qty: 5 } ] },
+   { item: "paper", instock: [ { warehouse: "A", qty: 60 }, { warehouse: "B", qty: 15 } ] },
+   { item: "planner", instock: [ { warehouse: "A", qty: 40 }, { warehouse: "B", qty: 5 } ] },
+   { item: "postcard", instock: [ { warehouse: "B", qty: 15 }, { warehouse: "C", qty: 35 } ] }
+]);
+
+
+
+
 -- 删除相关命令
 db.inventory.deleteOne({stauts : "A"})
 	删除集合中匹配到status=A的文档，如果在集合中有多个status=A的文档，只删除匹配到的第一个文档。
