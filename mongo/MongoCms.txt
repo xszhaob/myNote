@@ -101,7 +101,7 @@ db.inventory.find({
 })
 
 
--- 查询嵌入文档数组，
+-- 查询数组内嵌文档。
 -- 数据准备
 db.inventory.insertMany( [
    { item: "journal", instock: [ { warehouse: "A", qty: 5 }, { warehouse: "C", qty: 15 } ] },
@@ -111,6 +111,26 @@ db.inventory.insertMany( [
    { item: "postcard", instock: [ { warehouse: "B", qty: 15 }, { warehouse: "C", qty: 35 } ] }
 ]);
 
+-- 精确匹配：匹配元素和顺序。
+db.inventory.find({
+	"instock" : {warehouse : "A",qty : 5}
+})
+
+-- 文档内数据的内嵌文档的某个元素满足指定的条件。文档和文档内元素用"."连接。
+db.inventory.find({
+	"instock.qty" : {$lte : 20}
+})
+
+-- instock数组的内嵌文档至少有一个文档同时满足qty=5并且warehouse=A
+db.inventory.find( { 
+	"instock": { $elemMatch: { qty: 5, warehouse: "A" } } 
+} )
+-- instock数组的内嵌文档至少有一个文档同时满足10<qty<=20
+db.inventory.find( { "instock": { $elemMatch: { qty: { $gt: 10, $lte: 20 } } } } )
+-- instock数组的内嵌文档至少有一个文档满足qty>10或qty<=20
+db.inventory.find( {
+	"instock.qty" : {$gt: 10, $lte: 20}
+} )
 
 
 
