@@ -131,7 +131,7 @@ db.inventory.find( { "instock": { $elemMatch: { qty: { $gt: 10, $lte: 20 } } } }
 db.inventory.find( {
 	"instock.qty" : {$gt: 10, $lte: 20}
 } )
--- instock数组至少有一个内嵌文档包含qty=5，并且至少有一个内嵌文档（不必是符合前一个条件的文档）包含warehouse=A。
+-- instock数组至少有一个内嵌文档包含qty=5，并且至少有一个内嵌文档（不必是符合前一个条件的文档）包含warehouse=A
 db.inventory.find( { 
 	"instock.qty": 5, "instock.warehouse": "A"
 } )
