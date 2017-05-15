@@ -140,9 +140,58 @@ db.inventory.find(
 
 
 -- 更新文档
+-- 数据准备
+db.inventory.insertMany([
+   { item: "journal", qty: 25, size: { h: 14, w: 21, uom: "cm" }, status: "A" },
+   { item: "notebook", qty: 50, size: { h: 8.5, w: 11, uom: "in" }, status: "A" },
+   { item: "paper", qty: 100, size: { h: 8.5, w: 11, uom: "in" }, status: "D" },
+   { item: "planner", qty: 75, size: { h: 22.85, w: 30, uom: "cm" }, status: "D" },
+   { item: "postcard", qty: 45, size: { h: 10, w: 15.25, uom: "cm" }, status: "A" }
+]);
 
+-- 更新集合中匹配到给定条件的第一个文档
+db.collection.updateOne(
+	<filter>,
+	<update>,
+	{
+		upsert : <boolean>	-- 为true时，如果不存在则插入
+	}
+)
 
+-- eg:
+db.inventory.updateOne(
+	{item : "memeda"},
+	{$inc : {qty : 1}},
+	{upsert : true}
+)
 
+-- 更新集合中匹配到给定条件的所有文档
+db.collection.updateMany(
+	<filter>,
+	<update>,
+	{
+		upsert : <boolean>	-- 为true时，如果不存在则插入
+	}
+)
+-- eg:
+db.inventory.updateMany(
+	{item : {$in : ["paper","memeda"]}},
+	{$set : {qty : 50}},
+	{upsert : true}
+)
+
+-- 替换集合中匹配到给定条件的第一个文档
+db.collection.replaceOne(
+   <filter>,				-- 过滤条件
+   <replacement>,			-- 更换成该文档
+   {
+     upsert: <boolean>		-- 为true时，如果不存在则插入
+   }
+)
+-- eg:
+db.inventory.replaceOne( 
+	{item : "paper"}, {item : "paperr", qty : 150,"size" : {"h":22,"w" :22,"uom" : "cn"},"status" : "G"} 
+)
 
 -- 删除相关命令
 db.inventory.deleteOne({stauts : "A"})
