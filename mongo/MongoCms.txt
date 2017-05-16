@@ -193,6 +193,86 @@ db.inventory.replaceOne(
 	{item : "paper"}, {item : "paperr", qty : 150,"size" : {"h":22,"w" :22,"uom" : "cn"},"status" : "G"} 
 )
 
+-- 更改一个或多个匹配到的文档，该方法可以更新一个已经存在的文档中的给定字段，或者替换整个匹配到的文档。默认情况下只更新单个文档，如果需要更新多个文档，需要设置multi参数值为true。
+db.collection.update(
+	<query>,
+	<upate>,
+	{
+		upsert : <boolean>, 	-- 为true时，如果不存在则插入；
+		multi : <boolean>	--为true时，更新匹配到的全部文档，false时更新匹配到的第一个文档。默认false。
+	}
+)
+-- eg，数据准备：
+db.books.insert( { 
+	_id : 1, 
+	item : "TBD", 
+	stock : 0, 
+	info : {publisher : "1111",pages : 430},
+	tags : ["technology","computer"], 
+	ratings : [{by : "ijk",rating : 4},{by : "lmn",rating : 5}],
+	reorder : false 
+})
+-- 更新匹配到给定条件的第一个文档：
+db.books.update(
+   { _id: 1 },
+   {
+     $inc: { stock: 5 },
+     $set: {
+       item: "ABC123",
+       "info.publisher": "2222",
+       tags: [ "software" ],
+       "ratings.1": { by: "xyz", rating: 3 }
+     }
+   }
+)
+-- 替换匹配到给定条件的第一个文档，更新以后，原文档中的字段仅保留_id：
+db.books.update(
+	{item : "ABC123"},
+	{
+		item : "XYZ123",
+		stock : 10,
+		info : {publisher : "2255",pages :150},
+		tags : ["baking","cooking"]
+	}
+)
+-- 如果不存在则插入
+db.books.update(
+   { item: "ZZZ135" },
+   {
+     item: "ZZZ135",
+     stock: 5,
+     tags: [ "database" ]
+   },
+   { upsert: true }
+)
+-- 更新多个文档：
+db.books.update(
+	{stock : {$lte : 10}},
+	{$set : {reorder : true}},
+	{multi : true}
+)
+
+-- 更新多个文档和如果不存在则插入联合使用：
+-- 数据准备
+db.books.insertMany([
+	{
+	  _id: 5,
+	  item: "EFG222",
+	  stock: 18,
+	  info: { publisher: "0000", pages: 70 },
+	  reorder: true
+	},
+	{
+	  _id: 6,
+	  item: "EFG222",
+	  stock: 15,
+	  info: { publisher: "1111", pages: 72 },
+	  reorder: true
+	}
+])
+-- 如果不存在则插入：
+
+
 -- 删除相关命令
 db.inventory.deleteOne({stauts : "A"})
 	删除集合中匹配到status=A的文档，如果在集合中有多个status=A的文档，只删除匹配到的第一个文档。
