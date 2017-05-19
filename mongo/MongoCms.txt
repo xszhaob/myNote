@@ -27,6 +27,9 @@ SQL
 	select * from inventory;
 mongo shell
 	db.inventory.find()
+-- 在命令行上，每次显示行数
+DBQuery.shellBatchSize = 10;
+
 
 -- 条件查询
 SQL
