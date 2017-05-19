@@ -1,8 +1,17 @@
 db
 	代表当前的数据库。
 
+db.help()
+	显示数据库相关的一些可用函数信息
+
+db.serverStatus()
+	返回由数据库进程的一些状态信息组成的文档
+
 db.collection
 	当前数据库的指定集合
+	
+db.collection.help()
+	显示集合相关的一些可用函数信息
 
 db.myCollection.find()
 	获取myCollection集合中的所有数据，默认打印前20个，键入it获取更多的20个。
