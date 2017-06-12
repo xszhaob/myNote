@@ -85,7 +85,7 @@ db.inventory.find({
 	tags : ["blank", "red"]
 })
 
--- 非精确查询，至少有一个元素可以和给定值匹配上。查询tags中含有red或blank元素的，不需要匹配顺序和数组内元素个数，也不需要完全匹配两个元素。
+-- 非精确查询，非精确查询，同时包含给定的元素，不需要个数、次序相同。
 db.inventory.find({
 	tags : {$all : ["red", "blank"]}
 })
@@ -120,7 +120,8 @@ db.inventory.insertMany( [
    { item: "notebook", instock: [ { warehouse: "C", qty: 5 } ] },
    { item: "paper", instock: [ { warehouse: "A", qty: 60 }, { warehouse: "B", qty: 15 } ] },
    { item: "planner", instock: [ { warehouse: "A", qty: 40 }, { warehouse: "B", qty: 5 } ] },
-   { item: "postcard", instock: [ { warehouse: "B", qty: 15 }, { warehouse: "C", qty: 35 } ] }
+   { item: "postcard", instock: [ { warehouse: "B", qty: 15 }, { warehouse: "C", qty: 35 } ] },
+   {item: "postcard", instock: [ { qty:5 ,warehouse: "A" }, { warehouse: "C", qty: 35 } ]}
 ]);
 
 -- 精确匹配：匹配元素和顺序。
@@ -137,9 +138,9 @@ db.inventory.find({
 db.inventory.find( { 
 	"instock": { $elemMatch: { qty: 5, warehouse: "A" } } 
 } )
--- instock数组的内嵌文档至少有一个文档同时满足10<qty<=20
+-- instock数组的内嵌文档至少有一个文档中的某个元素同时满足10<qty<=20
 db.inventory.find( { "instock": { $elemMatch: { qty: { $gt: 10, $lte: 20 } } } } )
--- instock数组的内嵌文档至少有一个文档满足qty>10或qty<=20
+-- instock数组的内嵌文档至少有一个文档的某个元素满足qty>10或qty<=20
 db.inventory.find( {
 	"instock.qty" : {$gt: 10, $lte: 20}
 } )
